@@ -20,7 +20,7 @@ module.exports = Backbone.View.extend({
     "use strict";
     var self = this;
 
-    this.orderID = options.orderID
+    this.orderID = options.orderID;
     console.log(this.orderID);
     this.serverUrl = options.serverUrl;
     this.model = new Backbone.Model();

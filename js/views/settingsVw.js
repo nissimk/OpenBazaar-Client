@@ -54,7 +54,7 @@ module.exports = Backbone.View.extend({
      */
     this.socketView = options.socketView;
     this.userProfile = options.userProfile;
-    this.serverUrl = options.userModel.get('serverUrl')
+    this.serverUrl = options.userModel.get('serverUrl');
     this.user = this.options.userModel;
     this.model = new Backbone.Model();
     this.subViews = [];
@@ -544,7 +544,7 @@ module.exports = Backbone.View.extend({
     if(newAddress.name || newAddress.street || newAddress.city || newAddress.state || newAddress.postal_code) {
       if(!newAddress.name || !newAddress.street || !newAddress.city || !newAddress.state || !newAddress.postal_code){
         showErrorModal(window.polyglot.t('errorMessages.saveError'), window.polyglot.t('errorMessages.missingError'));
-        return
+        return;
       }
     }
 
