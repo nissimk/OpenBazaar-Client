@@ -13,6 +13,7 @@ var __ = require('underscore'),
     cropit = require('../utils/jquery.cropit'),
     showErrorModal = require('../utils/showErrorModal.js');
 
+    var ipcRenderer = require('ipc-renderer');  // Allows to talk Electon main process
 
 module.exports = Backbone.View.extend({
 
@@ -41,7 +42,8 @@ module.exports = Backbone.View.extend({
     'click .js-closeModal': 'closeModal',
     'keyup .js-navAddressBar': 'addressBarKeyup',
     'click .js-closeStatus': 'closeStatusBar',
-    'click .js-homeModal-themeSelected': 'setSelectedTheme'
+    'click .js-homeModal-themeSelected': 'setSelectedTheme',
+    'click .js-navInstallUpdate': 'sendInstallUpdate'
   },
 
   initialize: function(options){
@@ -85,6 +87,10 @@ module.exports = Backbone.View.extend({
     });
 
     this.render();
+  },
+
+  sendInstallUpdate: function() {
+    ipcRenderer.send('installUpdate');
   },
 
   handleSocketMessage: function(response) {
