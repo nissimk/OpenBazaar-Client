@@ -14,7 +14,7 @@ node_modules/
 .idea/inspectionProfiles/Project_Default.xml
 .idea/inspectionProfiles/profiles_settings.xml
 npm-debug.log
-
+build/
 .idea/jsLinters/eslint.xml
 .idea/encodings.xml
 

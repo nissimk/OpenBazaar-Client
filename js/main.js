@@ -1,7 +1,7 @@
 var App = require('./App'),
     app = new App();
 
-var __ = window.__ = require('underscore'),
+var __ = _ = window.__ = window._ = require('underscore'),
     Backbone = require('backbone'),
     $ = require('jquery');
 Backbone.$ = $;
@@ -22,6 +22,8 @@ window.onblur = function() {
   window.focused = false;
 };
 
+var isElectron = window.isElectron = (window && window.process && window.process.type);
+
 var Polyglot = require('node-polyglot'),
     ipcRenderer = require('ipc-renderer'),
     getBTPrice = require('./utils/getBitcoinPrice'),
@@ -32,6 +34,7 @@ var Polyglot = require('node-polyglot'),
     mouseWheel = require('jquery-mousewheel'),
     mCustomScrollbar = require('./utils/jquery.mCustomScrollbar.js'),
     setTheme = require('./utils/setTheme.js'),
+    linkNewWindow = require('./utils/linkNewWindow'),
     pageNavView = require('./views/pageNavVw'),
     ChatVw = require('./views/chatVw'),
     StatusBarView = require('./views/statusBarVw'),
@@ -100,15 +103,17 @@ serverConfigMd.on('sync', function(md) {
 //put the event bus into the window so it's available everywhere
 window.obEventBus =  __.extend({}, Backbone.Events);
 
-// fix zoom issue on Linux hiDPI
-var platform = process.platform;
+if (isElectron) {
+  // fix zoom issue on Linux hiDPI
+  var platform = process.platform;
 
-if(platform === "linux") {
-  var scaleFactor = require('screen').getPrimaryDisplay().scaleFactor;
-  if (scaleFactor === 0) {
-      scaleFactor = 1;
+  if(platform === "linux") {
+    var scaleFactor = require('screen').getPrimaryDisplay().scaleFactor;
+    if (scaleFactor === 0) {
+        scaleFactor = 1;
+    }
+    $("body").css("zoom", 1 / scaleFactor);
   }
-  $("body").css("zoom", 1 / scaleFactor);
 }
 
 //open external links in a browser, not the app
@@ -123,12 +128,7 @@ $('body').on('click', 'a', function(e){
       Backbone.history.navigate(route, {trigger:true});
     });
   } else if(linkPattern.test(targUrl) || $(this).is('.js-externalLink, .js-externalLinks a, .js-listingDescription')){
-    e.preventDefault();
-
-    if (!/^https?:\/\//i.test(targUrl)) {
-      targUrl = 'http://' + targUrl;
-    }
-    require("shell").openExternal(targUrl);
+    linkNewWindow(e);
   }
 });
 
@@ -235,14 +235,16 @@ $(window).bind('keydown', function(e) {
   }
 });
 
-//manage app being or not in fullscreen mode
-ipcRenderer.on('fullscreen-enter', (e) => {
-  $('body').addClass('fullscreen');
-});
+if (isElectron) {
+  //manage app being or not in fullscreen mode
+  ipcRenderer.on('fullscreen-enter', (e) => {
+    $('body').addClass('fullscreen');
+  });
 
-ipcRenderer.on('fullscreen-exit', (e) => {
-  $('body').removeClass('fullscreen');
-});
+  ipcRenderer.on('fullscreen-exit', (e) => {
+    $('body').removeClass('fullscreen');
+  });
+}
 
 //implement our statusBar view
 app.statusBar = new StatusBarView();
@@ -266,7 +268,7 @@ var setCurrentBitCoin = function(cCode, userModel, callback) {
 
 var profileLoaded;
 var loadProfile = function(landingRoute, onboarded) {
-  var externalRoute = remote.getGlobal('externalRoute');
+  var externalRoute = isElectron ? remote.getGlobal('externalRoute') : false;
 
   profileLoaded = true;
 

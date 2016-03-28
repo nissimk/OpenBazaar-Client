@@ -45,11 +45,13 @@ module.exports = Backbone.Router.extend({
     this.userProfile = options.userProfile;
     this.socketView = options.socketView;
 
-    ipcRenderer.on('external-route', (e, route) => {
-      this.translateRoute(route).done((translatedRoute) => {
-        this.navigate(translatedRoute, { trigger: true });
+    if (window.isElectron) {
+      ipcRenderer.on('external-route', (e, route) => {
+        this.translateRoute(route).done((translatedRoute) => {
+          this.navigate(translatedRoute, { trigger: true });
+        });
       });
-    });
+    }
   },
 
   translateRoute: function(route) {

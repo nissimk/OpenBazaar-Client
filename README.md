@@ -25,6 +25,15 @@ Running
 4. Run the client
   - `npm start`
 
+Running web version
+-------------------
+
+1. npm install
+2. build-web.sh    (this is tested on debian linux)
+3. make sure that your server has client_dir set in the ob.cfg and restart
+4. point your browser to http://localhost:18469
+
+
 Remember you must be running the [OpenBazaar-Server](https://github.com/OpenBazaar/OpenBazaar-Server) for the client to function properly. If you want to access the test network (testnet), run the server using the `-t` flag (e.g. `$ python openbazaard.py start -t`).
 
 If the server component has not generated a GUID (which happens only once, when the server is first started), then the client will not fully start up until the GUID is created.

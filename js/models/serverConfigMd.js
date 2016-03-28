@@ -10,7 +10,7 @@ module.exports = Backbone.Model.extend({
           'rest_api_port': 18469,
           'api_socket_port': 18466,
           'heartbeat_socket_port': 18470,
-          'SSL': false
+          'SSL': true
         },
         localUsername = this.get('local_username'),
         localPassword = this.get('local_password');

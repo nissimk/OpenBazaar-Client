@@ -6,6 +6,7 @@ var __ = require('underscore'),
     is = require('is_js'),
     app = require('../App.js').getApp(),
     loadTemplate = require('../utils/loadTemplate'),
+    linkNewWindow = require('../utils/linkNewWindow'),
     colpicker = require('../utils/colpick.js'),
     cropit = require('../utils/jquery.cropit'),
     userProfileModel = require('../models/userProfileMd'),
@@ -411,14 +412,7 @@ module.exports = baseVw.extend({
 
       $('.js-userAbout').html(about);
       
-      self.$el.find('.js-userAbout a').on('click', function(e){
-        e.preventDefault();
-        var extUrl = $(this).attr('href');
-        if (!/^https?:\/\//i.test(extUrl)) {
-          extUrl = 'http://' + extUrl;
-        }
-        require("shell").openExternal(extUrl);
-      });
+      self.$el.find('.js-userAbout a').on('click', linkNewWindow);
     });
 
     return this;

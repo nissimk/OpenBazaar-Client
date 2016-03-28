@@ -57,7 +57,11 @@ module.exports = baseVw.extend({
     this.languages = new languagesModel();
     this.showDiscIntro = options.showDiscIntro;
 
-    this.currentWindow = remote.getCurrentWindow();
+    if (window.isElectron) {
+      this.currentWindow = remote.getCurrentWindow();
+    } else {
+      this.currentWindow = {};
+    }
 
     this.listenTo(window.obEventBus, "updateProfile", function(response){
       this.refreshProfile();

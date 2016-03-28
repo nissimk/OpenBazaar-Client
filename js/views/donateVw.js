@@ -2,7 +2,8 @@ var __ = require('underscore'),
     Backbone = require('backbone'),
     $ = require('jquery'),
     donateModel = require('../models/donateMd'),    
-    loadTemplate = require('../utils/loadTemplate');
+    loadTemplate = require('../utils/loadTemplate'),
+    linkNewWindow = require('../utils/linkNewWindow');
 Backbone.$ = $;
 
 module.exports = Backbone.View.extend({
@@ -19,14 +20,7 @@ module.exports = Backbone.View.extend({
     $('#content').html(this.$el);
     loadTemplate('./js/templates/donate.html', function(loadedTemplate) {
       self.$el.html(loadedTemplate(self.model.toJSON()));
-      self.$el.find('a').on('click', function(e){
-        e.preventDefault();
-        var extUrl = $(this).attr('href');
-        if (!/^https?:\/\//i.test(extUrl)) {
-          extUrl = 'http://' + extUrl;
-        }
-        require("shell").openExternal(extUrl);
-      });
+      self.$el.find('a').on('click', linkNewWindow);
     });
     return this;
   },

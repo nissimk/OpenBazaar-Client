@@ -1,0 +1,99 @@
+<html id="ov1">
+<head>
+  <title>OpenBazaar</title>
+  <link href="css/ionicons.min.css" rel="stylesheet">
+  <link href="css/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+  <link href="css/chosen.css" rel="stylesheet">
+  <link href="css/colpick.css" rel="stylesheet">
+  <link href="css/colorbox.css" rel="stylesheet">
+  <link href="css/medium-editor.min.css" rel="stylesheet">
+  <link href="css/obBase.css" rel="stylesheet" id="obBase">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+  <div class="container custCol-background custCol-text" id="obContainer">
+    <div id="content"></div>
+    <div id="customizePreviewDashedBorder" class="hide"></div>
+  </div>
+  <div id="overlay" class="hide"></div>
+  <div id="sideBar"></div>
+  <div id="pageNav" class="bar navBar navBar-main custCol-secondary padding0"></div>
+  <div id="modalHolder">
+    <!-- container for modal views -->
+  </div>
+  <div id="messageModal" class="modal modal-opaque js-messageModal hide">
+    <!-- modal for messages -->
+    <div class="modal-child modal-childMain pad20 custCol-secondary custCol-text">
+      <div class="btn-corner btn-cornerTR js-closeIndexModal">
+        <h2 class="ion-android-close custCol-text clickable"></h2>
+      </div>
+      <div class="row20 rowTop20">
+        <h1 class="txt-center js-messageModal-title"></h1>
+      </div>
+      <p class="txt-center js-messageModal-message"></p>
+    </div>
+  </div>
+  <div class="modal modal-opaque js-loadingModal top0">
+    <div class="spinner-with-logo fullCentered">
+      <i class="ion-android-sync spinner fontSize30"></i>
+    </div>
+  </div>
+  <div class="modalHolder hide js-transactionModalHolder"></div>
+  <div class="modal modal-opaque hide js-loadingMessageModal">
+    <div class="modal-child modal-childMain">
+      <div class="btn-corner btn-cornerTR js-closeIndexModal">
+        <h2 class="ion-close-circled"></h2>
+      </div>
+      <h1 class="txt-center rowTop20"><i class="ion-android-sync spinner"></i> Loading...</h1>
+      <p class="txt-center js-indexLoadingMsg1"></p>
+      <p class="txt-center js-indexLoadingMsg2"></p>
+      <p class="txt-center js-indexLoadingMsg3"></p>
+      <h2 class="txt-center">
+        &nbsp;<span class="js-indexLoadingMsg4"></span>&nbsp;
+      </h2>
+      <div class="rowTop20 width100 positionWrapper pad50">
+        <div class="txtFieldWrapper">
+          <input type="text" class="txtField borderRadius3 placeholder-dark" placeholder="http://serverIPorURL/api/v1/"
+                 style="height: 32px; text-indent: 10px;" name="newServer" id="indexNewServer" />
+          <a class="btn btn-txt btn-insideInput js-newServerIndexApp">Set New Server</a>
+        </div>
+      </div>
+      <div class="rowTop20 width100 positionWrapper pad50">
+        <div class="txtFieldWrapper">
+          <a class="btn btn-txtOnly js-defaultServerIndexApp">Set to http://localhost:18469/api/v1/</a>
+          <a class="btn btn-txt btn-insideInput pull-right js-defaultServerIndexApp">Set to Default</a>
+        </div>
+      </div>
+      <div class="positionBottom row60 width100">
+        <a class="btn btn-txt hCentered js-closeIndexApp">Close Application</a>
+      </div>
+      </div>
+    </div>
+  </div>
+  <div id="statusBar"></div>
+
+  <!--TODO: modularize non-modular scripts -->
+  <!-- <script src="js/utils/list.min.js"></script> -->
+  <script>
+    var ipcrenderer = {};
+    var screen = {};
+    var shell = {};
+    var remote = {};
+    var fs = {};
+    var clipboard = {};
+  </script>
+  <script src="bundle.js"></script>
+  <script>
+    $('.js-closeIndexModal').on('click', function(){
+      $(this).closest('.modal').addClass('hide');
+    });
+    $('.js-newServerIndexApp').on('click', function(){
+      var newServer = $('#indexNewServer').val();
+      app.loadNewServer(newServer);
+    });
+    $('.js-defaultServerIndexApp').on('click', function(){
+      app.loadNewServer("http://localhost:18469/api/v1/");
+    });
+  </script>
+</body>
+</html>

@@ -2,6 +2,7 @@ var __ = require('underscore'),
     Backbone = require('backbone'),
     $ = require('jquery'),
     loadTemplate = require('../utils/loadTemplate'),
+    linkNewWindow = require('../utils/linkNewWindow'),
     countriesModel = require('../models/countriesMd'),
     baseVw = require('./baseVw'),
     buyDetailsVw = require('./buyDetailsVw'),
@@ -517,7 +518,7 @@ module.exports = baseVw.extend({
     this.$el.find('.js-buyWizardPayQRCode').attr('src', dataURI);
     this.$el.find('.js-buyWizardPayPrice').text();
     this.$el.find('.js-buyWizardPayURL').text(data.payment_address);
-    this.$el.find('.js-buyWizardPayLink').attr('href', payHREF);
+    this.$el.find('.js-buyWizardPayLink').attr('href', payHREF).on('click', linkNewWindow);
     this.buyDetailsView.lockForm();
   },
 
